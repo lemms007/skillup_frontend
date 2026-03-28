@@ -10,15 +10,15 @@ export interface WP_Lesson {
     description: string;
     author: string;
     duration: string; // Format: "MM:SS" (e.g., "6:03")
+    difficulty: string;
+    instructor?: {
+      name: string;
+    };
+    instructorAvatar?: string;
   };
-  difficulty?: string[]; // Array of difficulty levels
   tags?: string[];
   progress?: number; // 0-100
   completed?: boolean;
-  instructor?: {
-    name: string;
-    avatar: string;
-  };
   course?: {
     title: string;
   };

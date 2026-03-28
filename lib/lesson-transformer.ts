@@ -25,20 +25,25 @@ export function transformWP_LessonToLesson(wpLesson: WP_Lesson): Lesson {
   const thumbnailUrl = wpLesson.lessonData.thumbnail ||
                        `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-  // Get first difficulty level, default to 'Beginner'
-  const difficulty = wpLesson.difficulty?.[0] as Difficulty || 'Beginner';
+  // Get difficulty from lessonData, default to 'Beginner'
+  const difficulty = wpLesson.lessonData.difficulty || 'Beginner';
+
+  // Use instructor from lessonData if available, otherwise generate avatar from author name
+  const instructorName = wpLesson.lessonData.instructor?.name || wpLesson.lessonData.author || 'Unknown Instructor';
+  const instructorAvatar = wpLesson.lessonData.instructorAvatar ||
+                           `https://ui-avatars.com/api/?name=${encodeURIComponent(instructorName)}&background=6366f1&color=fff`;
 
   return {
     id: wpLesson.id,
     title: wpLesson.title,
     thumbnailUrl: thumbnailUrl,
     durationInMinutes: parseDurationToMinutes(wpLesson.lessonData.duration),
-    difficulty: difficulty,
+    difficulty: difficulty as Difficulty,
     instructor: {
-      name: wpLesson.lessonData?.author || 'Unknown Instructor',
-      avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(wpLesson.lessonData?.author || 'Instructor') + '&background=6366f1&color=fff',
+      name: instructorName,
+      avatar: instructorAvatar,
     },
-    course: {
+    course: wpLesson.course || {
       title: 'SkillUp Course',
     },
     tags: wpLesson.tags || [],

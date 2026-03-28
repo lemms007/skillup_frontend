@@ -100,6 +100,28 @@ The app consumes data from a WordPress GraphQL server.
 
 The lessons endpoint returns data in this format:
 
+```graphql
+query GetLessons {
+  lessons {
+    nodes {
+      title
+      lessonData {
+        videoUrl
+        thumbnail
+        description
+        author
+        duration
+        difficulty
+        instructor {
+          name
+        }
+        instructorAvatar
+      }
+    }
+  }
+}
+```
+
 ```json
 {
   "data": {
@@ -114,13 +136,14 @@ The lessons endpoint returns data in this format:
             "description": "Lesson description text",
             "author": "Instructor Name",
             "duration": "8:30",
-            "difficulty": "Intermediate"
+            "difficulty": "Intermediate",
+            "instructor": { "name": "string" },
+            "instructorAvatar": "string"
           },
-          "instructor": { "name": "string", "avatar": "string" },
-          "course": { "title": "string" },
+          "tags": ["string"],
           "progress": 0-100,
           "completed": true/false,
-          "tags": ["string"]
+          "course": { "title": "string" }
         }
       ]
     }
@@ -134,6 +157,9 @@ The `lib/lesson-transformer.ts` transforms WordPress GraphQL data (`WP_Lesson`) 
 - Parses duration string "MM:SS" to minutes (number)
 - Extracts YouTube video ID for thumbnails
 - Maps difficulty levels (Beginner/Intermediate/Advanced)
+- Uses instructor from `lessonData.instructor.name` or falls back to `lessonData.author`
+- Uses instructorAvatar from `lessonData.instructorAvatar` or generates avatar from name
+- Maps course from `course` field (defaults to 'SkillUp Course' if not provided)
 
 See `types/index.ts` for full type definitions.
 
