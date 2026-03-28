@@ -16,12 +16,19 @@ export function LessonGrid({ lessons, onLessonClick }: LessonGridProps) {
 
   const difficulties = ['all', 'Beginner', 'Intermediate', 'Advanced'];
 
-  const filteredLessons = lessons.filter(lesson => {
-    const matchesSearch = lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          lesson.course.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesDifficulty = selectedDifficulty === 'all' || lesson.difficulty === selectedDifficulty;
-    return matchesSearch && matchesDifficulty;
-  });
+  const filteredLessons = lessons
+    .filter(lesson => {
+      const matchesSearch = lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            lesson.course.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesDifficulty = selectedDifficulty === 'all' || lesson.difficulty === selectedDifficulty;
+      return matchesSearch && matchesDifficulty;
+    })
+    .sort((a, b) => {
+      // Sort by progress (highest first) for "Continue Learning" focus
+      const progressA = a.progress ?? 0;
+      const progressB = b.progress ?? 0;
+      return progressB - progressA;
+    });
 
   return (
     <div className="space-y-6">

@@ -1,5 +1,28 @@
 // Type definitions for SkillSync - Headless WordPress Micro-Learning Platform
 
+// WordPress GraphQL Response Types
+export interface WP_Lesson {
+  id: string;
+  title: string;
+  lessonData: {
+    videoUrl: string;
+    thumbnail: string;
+    description: string;
+    author: string | null;
+    duration: string; // Format: "MM:SS" (e.g., "6:03")
+    difficulty: string;
+    instructor: string;
+    instructorAvatar: string;
+  };
+  tags?: string[];
+  progress?: number; // 0-100
+  completed?: boolean;
+  course?: {
+    title: string;
+  };
+}
+
+// Internal Application Type
 export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export interface Lesson {
@@ -18,6 +41,8 @@ export interface Lesson {
   progress?: number; // 0-100
   completed?: boolean;
   tags: string[];
+  videoUrl: string;
+  description?: string; // Lesson description from WordPress lessonData
 }
 
 export interface LessonCardProps {

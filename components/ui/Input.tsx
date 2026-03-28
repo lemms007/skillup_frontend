@@ -1,6 +1,6 @@
 'use client';
 
-import { ForwardedRef, InputHTMLAttributes, useRef } from 'react';
+import React, { ForwardedRef, InputHTMLAttributes, useRef } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,11 +12,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleRef = (el: HTMLInputElement | null) => {
-      if (ref) {
-        ref.current = el;
-      }
-      if (el && inputRef.current) {
+      if (el !== null) {
         inputRef.current = el;
+      }
+      if (ref !== null && typeof ref === 'function') {
+        ref(el);
+      } else if (ref !== null && ref !== undefined) {
+        (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
       }
     };
 
