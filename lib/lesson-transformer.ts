@@ -28,8 +28,8 @@ export function transformWP_LessonToLesson(wpLesson: WP_Lesson): Lesson {
   // Get difficulty from lessonData, default to 'Beginner'
   const difficulty = wpLesson.lessonData.difficulty || 'Beginner';
 
-  // Use instructor from lessonData if available, otherwise generate avatar from author name
-  const instructorName = wpLesson.lessonData.instructor?.name || wpLesson.lessonData.author || 'Unknown Instructor';
+  // Instructor is now a flat string field in lessonData
+  const instructorName = wpLesson.lessonData.instructor || 'Unknown Instructor';
   const instructorAvatar = wpLesson.lessonData.instructorAvatar ||
                            `https://ui-avatars.com/api/?name=${encodeURIComponent(instructorName)}&background=6366f1&color=fff`;
 

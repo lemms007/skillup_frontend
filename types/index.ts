@@ -8,13 +8,11 @@ export interface WP_Lesson {
     videoUrl: string;
     thumbnail: string;
     description: string;
-    author: string;
+    author: string | null;
     duration: string; // Format: "MM:SS" (e.g., "6:03")
     difficulty: string;
-    instructor?: {
-      name: string;
-    };
-    instructorAvatar?: string;
+    instructor: string;
+    instructorAvatar: string;
   };
   tags?: string[];
   progress?: number; // 0-100
