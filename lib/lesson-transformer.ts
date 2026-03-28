@@ -16,6 +16,7 @@ export function parseDurationToMinutes(duration: string): number {
 
 /**
  * Transform WordPress GraphQL lesson data to internal Lesson format
+ * Instructor is a flat String field in WPGraphQL
  */
 export function transformWP_LessonToLesson(wpLesson: WP_Lesson): Lesson {
   // Extract video ID from YouTube URL
@@ -28,10 +29,10 @@ export function transformWP_LessonToLesson(wpLesson: WP_Lesson): Lesson {
   // Get difficulty from lessonData, default to 'Beginner'
   const difficulty = wpLesson.lessonData.difficulty || 'Beginner';
 
-  // Instructor is now a flat string field in lessonData
+  // Instructor is now a flat string field in lessonData (WPGraphQL limitation)
+  // Generate avatar from instructor name
   const instructorName = wpLesson.lessonData.instructor || 'Unknown Instructor';
-  const instructorAvatar = wpLesson.lessonData.instructorAvatar ||
-                           `https://ui-avatars.com/api/?name=${encodeURIComponent(instructorName)}&background=6366f1&color=fff`;
+  const instructorAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(instructorName)}&background=6366f1&color=fff`;
 
   return {
     id: wpLesson.id,
@@ -43,12 +44,12 @@ export function transformWP_LessonToLesson(wpLesson: WP_Lesson): Lesson {
       name: instructorName,
       avatar: instructorAvatar,
     },
-    course: wpLesson.course || {
+    course: {
       title: 'SkillUp Course',
     },
-    tags: wpLesson.tags || [],
-    progress: wpLesson.progress || 0,
-    completed: wpLesson.completed || false,
+    tags: [],
+    progress: 0,
+    completed: false,
     videoUrl: wpLesson.lessonData.videoUrl,
     description: wpLesson.lessonData.description,
   };

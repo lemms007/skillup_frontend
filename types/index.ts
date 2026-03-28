@@ -1,6 +1,7 @@
 // Type definitions for SkillSync - Headless WordPress Micro-Learning Platform
 
 // WordPress GraphQL Response Types
+// Based on actual WPGraphQL schema for Lesson CPT
 export interface WP_Lesson {
   id: string;
   title: string;
@@ -8,17 +9,9 @@ export interface WP_Lesson {
     videoUrl: string;
     thumbnail: string;
     description: string;
-    author: string | null;
     duration: string; // Format: "MM:SS" (e.g., "6:03")
     difficulty: string;
-    instructor: string;
-    instructorAvatar: string;
-  };
-  tags?: string[];
-  progress?: number; // 0-100
-  completed?: boolean;
-  course?: {
-    title: string;
+    instructor: string; // Instructor is a String field in WPGraphQL
   };
 }
 
@@ -38,8 +31,8 @@ export interface Lesson {
   course: {
     title: string;
   };
-  progress?: number; // 0-100
-  completed?: boolean;
+  progress: number; // 0-100 (now required)
+  completed: boolean; // now required
   tags: string[];
   videoUrl: string;
   description?: string; // Lesson description from WordPress lessonData
