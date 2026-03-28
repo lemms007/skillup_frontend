@@ -94,7 +94,48 @@ Next.js 16 defaults to Server Components. Use `'use client'` directive only when
 
 ### WordPress Integration
 
-The app consumes data from a WordPress GraphQL server. Check `app/page.tsx` and related components for GraphQL query patterns.
+The app consumes data from a WordPress GraphQL server.
+
+### GraphQL Response Structure
+
+The lessons endpoint returns data in this format:
+
+```json
+{
+  "data": {
+    "lessons": {
+      "nodes": [
+        {
+          "id": "string",
+          "title": "Lesson Title",
+          "lessonData": {
+            "videoUrl": "https://www.youtube.com/watch?v=VIDEO_ID",
+            "thumbnail": "https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg",
+            "description": "Lesson description text",
+            "author": "Instructor Name",
+            "duration": "8:30",
+            "difficulty": "Intermediate"
+          },
+          "instructor": { "name": "string", "avatar": "string" },
+          "course": { "title": "string" },
+          "progress": 0-100,
+          "completed": true/false,
+          "tags": ["string"]
+        }
+      ]
+    }
+  }
+}
+```
+
+### Data Transformation
+
+The `lib/lesson-transformer.ts` transforms WordPress GraphQL data (`WP_Lesson`) to internal format (`Lesson`):
+- Parses duration string "MM:SS" to minutes (number)
+- Extracts YouTube video ID for thumbnails
+- Maps difficulty levels (Beginner/Intermediate/Advanced)
+
+See `types/index.ts` for full type definitions.
 
 ## Project-Specific Notes
 
