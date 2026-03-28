@@ -16,20 +16,20 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const loadLessons = async () => {
-      try {
-        setLoading(true);
-        const fetchedLessons = await fetchLessons();
-        setLessons(fetchedLessons);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch lessons'));
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadLessons = async () => {
+    try {
+      setLoading(true);
+      const fetchedLessons = await fetchLessons();
+      setLessons(fetchedLessons);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to fetch lessons'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadLessons();
   }, []);
 
@@ -71,7 +71,13 @@ export default function Home() {
           </div>
         ) : error ? (
           <div className="glass rounded-2xl p-6 text-center text-red-400 card-hover">
-            <p>Error loading lessons. Please ensure WordPress GraphQL server is running.</p>
+            <p>Error loading lessons. Please check your connection and try again.</p>
+            <button
+              onClick={loadLessons}
+              className="mt-4 px-4 py-2 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-lg transition-colors"
+            >
+              Retry
+            </button>
           </div>
         ) : (
           <>
