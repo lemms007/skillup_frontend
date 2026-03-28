@@ -4,7 +4,8 @@ import { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Lesson, VideoPlayerProps } from '@/types';
 
-export function VideoPlayer({ lesson, onProgressUpdate, onComplete, isPlaying = false }: VideoPlayerProps) {
+export function VideoPlayer({ lesson, onProgressUpdate, onComplete, isPlaying: initialPlaying = false }: VideoPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(initialPlaying);
   const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);

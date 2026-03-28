@@ -69,6 +69,11 @@ export function LessonCard({ lesson, onClick }: LessonCardProps) {
           {lesson.title}
         </h3>
         <p className="text-sm text-[#94a3b8]">{lesson.course.title}</p>
+        {lesson.description && (
+          <p className="text-sm text-[#64748b] line-clamp-2 mt-2">
+            {lesson.description}
+          </p>
+        )}
 
         {/* Instructor */}
         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#1e293b]">

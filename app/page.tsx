@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { RightSidebar } from '@/components/layout/RightSidebar';
 import { ResumeHero } from '@/components/dashboard/ResumeHero';
 import { LessonGrid } from '@/components/dashboard/LessonGrid';
+import { NewForYou } from '@/components/dashboard/NewForYou';
 import type { Lesson } from '@/types';
 
 // Mock data - In production, this would come from WordPress GraphQL
@@ -12,6 +14,7 @@ const mockLessons: Lesson[] = [
     id: '1',
     title: 'Introduction to React Hooks',
     thumbnailUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 8,
     difficulty: 'Beginner',
     instructor: {
@@ -23,12 +26,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 45,
     completed: false,
-    tags: ['React', 'Hooks', 'JavaScript']
+    tags: ['React', 'Hooks', 'JavaScript'],
+    description: 'Learn the fundamentals of React Hooks including useState and useEffect to manage state and side effects in functional components.'
   },
   {
     id: '2',
     title: 'Advanced CSS Grid Layouts',
     thumbnailUrl: 'https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 12,
     difficulty: 'Advanced',
     instructor: {
@@ -40,12 +45,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['CSS', 'Grid', 'Layout']
+    tags: ['CSS', 'Grid', 'Layout'],
+    description: 'Master CSS Grid layout with advanced techniques for building complex web layouts and responsive designs.'
   },
   {
     id: '3',
     title: 'TypeScript Generics Deep Dive',
     thumbnailUrl: 'https://images.unsplash.com/photo-1515688514762-505035253233?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 15,
     difficulty: 'Advanced',
     instructor: {
@@ -57,12 +64,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['TypeScript', 'Generics', 'Advanced']
+    tags: ['TypeScript', 'Generics', 'Advanced'],
+    description: 'Deep dive into TypeScript generics to create reusable, type-safe components and functions.'
   },
   {
     id: '4',
     title: 'Building REST APIs with Node.js',
     thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 20,
     difficulty: 'Intermediate',
     instructor: {
@@ -74,12 +83,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['Node.js', 'API', 'Backend']
+    tags: ['Node.js', 'API', 'Backend'],
+    description: 'Learn how to build scalable REST APIs using Node.js, Express, and best practices for API design.'
   },
   {
     id: '5',
     title: 'Responsive Design Principles',
     thumbnailUrl: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 10,
     difficulty: 'Beginner',
     instructor: {
@@ -91,12 +102,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['Responsive', 'Mobile', 'Design']
+    tags: ['Responsive', 'Mobile', 'Design'],
+    description: 'Master responsive web design principles to create websites that look great on all devices.'
   },
   {
     id: '6',
     title: 'Performance Optimization Techniques',
     thumbnailUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 18,
     difficulty: 'Advanced',
     instructor: {
@@ -108,12 +121,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['Performance', 'Optimization', 'Core Web Vitals']
+    tags: ['Performance', 'Optimization', 'Core Web Vitals'],
+    description: 'Learn advanced performance optimization techniques including Core Web Vitals, lazy loading, and code splitting.'
   },
   {
     id: '7',
     title: 'CSS Animations and Transitions',
     thumbnailUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 14,
     difficulty: 'Intermediate',
     instructor: {
@@ -125,12 +140,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['CSS', 'Animation', 'UI']
+    tags: ['CSS', 'Animation', 'UI'],
+    description: 'Create engaging user experiences with CSS animations and transitions for modern web interfaces.'
   },
   {
     id: '8',
     title: 'Getting Started with Git',
     thumbnailUrl: 'https://images.unsplash.com/photo-1621504450168-388671981d10?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 6,
     difficulty: 'Beginner',
     instructor: {
@@ -142,12 +159,14 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['Git', 'Version Control', 'Basics']
+    tags: ['Git', 'Version Control', 'Basics'],
+    description: 'Learn the fundamentals of Git version control for tracking changes and collaborating on code.'
   },
   {
     id: '9',
     title: 'Advanced State Management with Redux',
     thumbnailUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     durationInMinutes: 25,
     difficulty: 'Advanced',
     instructor: {
@@ -159,7 +178,8 @@ const mockLessons: Lesson[] = [
     },
     progress: 0,
     completed: false,
-    tags: ['React', 'Redux', 'State']
+    tags: ['React', 'Redux', 'State'],
+    description: 'Master advanced state management patterns with Redux for complex React applications.'
   }
 ];
 
@@ -253,6 +273,11 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <NewForYou
+          lessons={mockLessons}
+          onLessonClick={handleLessonClick}
+        />
       </div>
     </DashboardLayout>
   );
